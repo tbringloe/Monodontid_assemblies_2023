@@ -151,6 +151,7 @@ bash 3d-dna/run-asm-pipeline-post-review.sh -g 100 --sort-output -r "$asm".rawch
 
 #generate .agp file for ncbi submission using juicebox_assembly_converter.py script provided by https://github.com/phasegenomics/juicebox_scripts
 ```
+*It is highly advisable at this point that you name your sequences according to NCBI standards. Namely, any relevant information should be incorporated into the sequence header (e.g. HiC_scaffold_19 [organism=Delphinapterus leucas] [isolate=S_20_00703] [chromosome=9]). Failure to adhere to NCBI standards will create errors in your submission that require correction before approval.
 
 # Assemble RNA-seq data for EST predictions
 ### Assembly transcripts using RNA-spades
