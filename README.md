@@ -406,20 +406,26 @@ MAKER can be run iteratively, in theory improving gene predictions with each rou
 ### Evaluate gene model results
 We can determine if the predictions have converged using three strategies: 1) by looking at gene numbers and lengths after each round of MAKER; 2) look at AED distributions, where 0 to 1 quatifies the confidence in a gene model, and 3) visualize the gene models in a genome browser.
 ```
-echo some fancy code
-#Count the number of gene models and lengths after each round of maker
-cat <roundN.full.gff> | awk '{ if ($3 == "gene") print $0 }' | awk '{ sum += ($5 - $4) } END { print NR, sum / NR }'
-
-#Visualize AED distribution with perl script
-perl AED_cdf_generator.pl -b -.-25 <roundN.full.gff>
-
-#Use JBrowse to visualize annotation tracks
-
+#First we must extract annotations and transcripts for downstream functional annotations, launched within output directory
+#Fasta_merge will create protein and nucleotide sequences of gene models
+gff3_merge -d <sample>_datastore_index.log
+fasta_merge -d <sample>_datastore_index.log
 ```
+I take some leads from this [tutorial](https://github.com/Joseph7e/MAKER-genome-annotations-tutorial). Next we can count the number of gene models and lengths after each round of maker. These should converge somewhat after 3 rounds. In our case there was a difference of 4,497 predicted genes between rounds 1 and 2, and 407 between rounds 2 and 3.
+```
+cat <roundN.full.gff> | awk '{ if ($3 == "gene") print $0 }' | awk '{ sum += ($5 - $4) } END { print NR, sum / NR }'
+```
+
+Next the distribution of AED scores are visualised with a with perl script. Lower scores indicate more empirical evidence is consistent with a predicted gene. At the expense of repeating what I have seen online, 95% of scores should be below 0.50 for a well annotated genome. For our work here, 93.5% of gene models had an AED score of 0.5 or less. The script to calculate the accumulation values can be found [here](https://github.com/mscampbell/Genome_annotation/blob/master/AED_cdf_generator.pl).
+```
+perl AED_cdf_generator.pl -b 0.025 <roundN.full.gff>
+```
+[JBrowse](https://jbrowse.org/jb2/) can also be used to visualize annotation tracks.
 
 ### Adding functional information to annotations
+Begin by extracting maker gene model annotations. The full annotation file will still containt information on mapped transcripts and repeat regions, which are not needed anymore.
 ```
-echo some even fancier code
+cat S_20_00703_all_round3_25v23.gff3 | awk '{ if ($2 == "maker") print $0}' > 703.gene_models.gff3
 ```
 
 # DONE :)
