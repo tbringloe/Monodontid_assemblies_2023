@@ -427,7 +427,29 @@ Begin by extracting maker gene model annotations. The full annotation file will 
 ```
 cat S_20_00703_all_round3_25v23.gff3 | awk '{ if ($2 == "maker") print $0}' > 703.gene_models.gff3
 ```
-
+Next we rename the bulky maker IDs using maker built-in scripts.
+```
+# Use maker built in script to create a map for the new names
+maker_map_ids --prefix MOBELS_S_20_00703 --justify 5  Bcon_rnd3.all.maker.gff > Bcon_rnd3.all.maker.name.map
+# replace names in GFF files
+map_gff_ids Bcon_rnd3.all.maker.name.map Bcon_rnd3.all.maker.gff
+# replace names in FASTA headers
+map_fasta_ids Bcon_rnd3.all.maker.name.map Bcon_rnd3.all.maker.transcripts.fasta
+map_fasta_ids Bcon_rnd3.all.maker.name.map Bcon_rnd3.all.maker.proteins.fasta
+```
+Next we need to generate blast and interproscan output, the functional information to be associated with the gene annotations. Here the non-redundant and curated Swiss-Prot UniProt library is used as a blast database.
+```
+#Get blast results
+blastp -query hsap_contig.maker.proteins.fasta -db uniprot_sprot.fasta -evalue 1e-6 -max_hsps 1 -max_target_seqs 1 -outfmt 6 -out output.blastp
+#Get protein domains using interproscan
+interproscan.sh -appl pfam -dp -f TSV -goterms -iprlookup -pa -t p -i hsap_contig.maker.proteins.fasta -o output.iprscan
+```
+Now we can add the functional information to the annotation file
+```
+maker_functional_gff uniprot_sprot.db output.renamed.blastp hsap_contig.renamed.gff > hsap_contig.renamed.putative_function.gff
+maker_functional_fasta uniprot_sprot.db output.renamed.blastp hsap_contig.maker.proteins.renamed.fasta > hsap_contig.maker.proteins.renamed.putative_function.fasta
+maker_functional_fasta uniprot_sprot.db output.renamed.blastp hsap_contig.maker.transcripts.renamed.fasta > hsap_contig.maker.transcripts.renamed.putative_function.fasta
+```
 # DONE :)
 
 # Citations
