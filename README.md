@@ -444,6 +444,9 @@ map_fasta_ids 703.gene_models.name.map 703.all.maker.proteins.rename.fasta
 Next we need to generate blast and interproscan output, the functional information to be associated with the gene annotations. Here the non-redundant and curated [Swiss-Prot/UniProt](https://www.uniprot.org/help/downloads) library is used as a blast database.
 ```
 #Get blast results
+#Make sure to create a local blast database without parsing ids, otherwise maker cannot parse the information downstream
+makeblastdb -in uniprot_sprot.fasta -dbtype prot
+#note, the -db flag is pointing to the files created with the makeblastdb argument, not the uniprot_sprot.fasta fasta file.
 blastp -query 703.all.maker.proteins.rename.fasta -db uniprot_sprot.fasta -evalue 1e-6 -max_hsps 1 -max_target_seqs 1 -outfmt 6 -out output.blastp
 #Get protein domains using interproscan
 interproscan.sh -appl pfam -dp -f TSV -goterms -iprlookup -pa -t p -i 703.all.maker.proteins.rename.fasta -o output.iprscan
