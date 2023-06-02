@@ -449,13 +449,15 @@ makeblastdb -in uniprot_sprot.fasta -dbtype prot
 #note, the -db flag is pointing to the files created with the makeblastdb argument, not the uniprot_sprot.fasta fasta file.
 blastp -query 703.all.maker.proteins.rename.fasta -db uniprot_sprot.fasta -evalue 1e-6 -max_hsps 1 -max_target_seqs 1 -outfmt 6 -out output.blastp
 #Get protein domains using interproscan
-interproscan.sh -appl pfam -dp -f TSV -goterms -iprlookup -pa -t p -i 703.all.maker.proteins.rename.fasta -o output.iprscan
+bash interproscan-5.62-94.0/interproscan.sh -cpu 16 -appl pfam -dp -f TSV -goterms -iprlookup -pa -t p -i 703.all.maker.proteins.rename.fasta -o 703.output.iprscan
 ```
 Now we can add the functional information to the annotation file
 ```
 maker_functional_gff uniprot_sprot.fasta output.blastp 703.gene.models.rename.gff3 > 703.gene.models.rename.putative_function.gff
 maker_functional_fasta uniprot_sprot.fasta output.blastp 703.all.maker.proteins.rename.fasta > 703.all.maker.proteins.renamed.putative_function.fasta
 maker_functional_fasta uniprot_sprot.fasta output.blastp 703.all.maker.transcripts.rename.fasta > 703.all.maker.transcripts.rename.putative_function.fasta
+ipr_update_gff 703.gene.models.rename.putative_function.gff 703.output.iprscan > 703.gene.models.rename.putative_function.domain_added.gff
+iprscan2gff3 703.output.iprscan 703.gene.models.rename.gff3 > 703.visible_iprscan_domains.gff
 ```
 # DONE :)
 
