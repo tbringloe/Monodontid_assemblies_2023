@@ -27,7 +27,7 @@ Reference genomes provide a foundational framework for evolutionary investigatio
 Commands were carried out on Compute Canada's Cedar cluster using high performance computing job submissions/interactive sessions; command lines are provided, but note other SBATCH and module information was provided for each job (third party program version numbers provided here). Sample S_20_00708 (narwhal) is provided as an example here; the same set of commands were used for other samples (i.e. S_20_00693, S_20_00702, S_20_00703). Depending on the complexity of assembly, end-users will need to provide tailored resource requests (i.e. cores/threads+wall time). A major barrier to implimenting this workflow is the proper installation and compatability of dependencies. This was facilitated, in large part, through Compute Canada's Cedar cluster; users may experience a different level of frustration depending on what level of support they have, or how inherently stubborn they are. Note also, there is ample opportunity to pipe commands. As an initial run, my preference was to write intermediate files to disk in order to troubleshoot.
 
 # Overview of workflow
-![Mermaid_flow_assembly_diagram2_24v23](https://github.com/tbringloe/Monodontid_assemblies_2023/assets/79611349/59d47e14-fe95-4289-bd16-d63285bed722)
+![Mermaid_flow_assembly_diagram2_24v23](https://github.com/tbringloe/Monodontid_assemblies_2023/assets/79611349/221d3d4c-adeb-4ad7-a6fb-766b9b495bbb)
 
 # Prepping files for input
 ### Download HI-C data. 
