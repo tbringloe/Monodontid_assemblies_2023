@@ -9,6 +9,7 @@ __Contact:__      e-mail: tbringloe@gmail.com | tel: (506)-259-2288
 
 - [Abstract](#abstract)
 - [Summary](#summary)
+- [Caveats](#caveats)
 - [Overview of workflow](#overview-of-workflow)
 - [Prepping files for input](#prepping-files-for-input)
 - [Assembly of read datasets using Flye](#assembly-of-read-datasets-using-flye)
@@ -25,6 +26,9 @@ Reference genomes provide a foundational framework for evolutionary investigatio
 
 # Summary 
 Commands were carried out on Compute Canada's Cedar cluster using high performance computing job submissions/interactive sessions; command lines are provided, but note other SBATCH and module information was provided for each job (third party program version numbers provided here). Sample S_20_00708 (narwhal) is provided as an example here; the same set of commands were used for other samples (i.e. S_20_00693, S_20_00702, S_20_00703). Depending on the complexity of assembly, end-users will need to provide tailored resource requests (i.e. cores/threads+wall time). A major barrier to implimenting this workflow is the proper installation and compatability of dependencies. This was facilitated, in large part, through Compute Canada's Cedar cluster; users may experience a different level of frustration depending on what level of support they have, or how inherently stubborn they are. Note also, there is ample opportunity to pipe commands. As an initial run, my preference was to write intermediate files to disk in order to troubleshoot.
+
+# Caveats
+Initial taxonomic profiling of the assemblies suggested negligible non-target sequences (e.g. bacterial, lab contaminants). Depending on the target organism, however, users should strongly consider profiling their assembly to better understand the complexity of their dataset, particularly if non-target taxa should be removed from the assembly. A [blobtools](https://github.com/DRL/blobtools) approach is recommended here as a quality control procedure.
 
 # Overview of workflow
 ![Mermaid_flow_assembly_diagram2_24v23](https://github.com/tbringloe/Monodontid_assemblies_2023/assets/79611349/221d3d4c-adeb-4ad7-a6fb-766b9b495bbb)
